@@ -15,16 +15,39 @@ export default function HomePage() {
     const[filteredTask,setfilteredTask]=useState([]);
     const [statusFilter, setStatusFilter] = useState("all");
     const [priorityFilter, setPriorityFilter] = useState("all");
+    const [sortBy, setSortBy] = useState(null);
+    const handleSortByPriority = () => {
+        setSortBy("priority");
+      };
+    
+      const handleSortByCompletionStatus = () => {
+        setSortBy("completionStatus");
+      };
 
     const handleSearchChange = (e) => {
         setSearchTerm(e.target.value);
       };
       const handleStatusFilter = (status) => {
         setStatusFilter(status);
-      };
+    };
     const handlePriorityFilter = (priority) => {
         setPriorityFilter(priority);
-      };
+};
+    useEffect(()=>{
+        const sortedTasks = tasks.sort((a, b) => {
+            if (sortBy === "priority") {
+              const priorityOrder = { Low: 1, Medium: 2, High: 3 };
+              return priorityOrder[a.priority] - priorityOrder[b.priority];
+            } else if (sortBy === "completionStatus") {
+                return a.completed === b.completed ? 0 : a.completed?1:1;
+            } else {
+              // If no sorting option selected, keep tasks in the original order
+              return 0;
+            }
+          });
+        setfilteredTask(sortedTasks===""?tasks:sortedTasks);
+    },[sortBy])
+    
     useEffect(()=>{
         const filteredTasks = tasks.filter(
             (task) =>
@@ -130,7 +153,10 @@ console.log(tasks);
         <button onClick={() => handlePriorityFilter("Medium")}>Medium</button>
         <button onClick={() => handlePriorityFilter("High")}>High</button>
       </div>
-
+<div>
+<button onClick={handleSortByPriority}>Sort by Priority</button>
+        <button onClick={handleSortByCompletionStatus}>Sort by Completion</button>
+</div>
         {
         
         
@@ -143,7 +169,9 @@ console.log(tasks);
 <p>{item.priority}</p>
 <button><Link to={`/edit/${item.id}`}>Edit</Link></button>
 
+
 </div>
+
 
   )})}
         </>
