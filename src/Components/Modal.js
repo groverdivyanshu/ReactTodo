@@ -14,6 +14,7 @@ export default function Modal({open,Close}) {
  const handlePriority = (e) => {
   setPriority(e.target.value);
 };
+//Passing the synthetic event as argument to stop refreshing the page on submit
  const handleAddTask = () => {
     if (task.trim() === '') {
       return;

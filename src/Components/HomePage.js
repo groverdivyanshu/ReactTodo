@@ -9,9 +9,7 @@ export default function HomePage() {
 
    const{tasks,setTasks}=useContext(Datacontext);
   
-    const[task, setTask]=useState("");
-    const[description,setDescription]=useState("");
-    const [priority, setPriority] = useState("Low");
+   
     const [searchTerm, setSearchTerm] = useState("");
     const[filteredTask,setfilteredTask]=useState([]);
     const [statusFilter, setStatusFilter] = useState("all");
@@ -33,7 +31,7 @@ const Modalcheck = () => {
     
       const handleSortByCompletionStatus = () => {
         setSortBy("completionStatus");
-};
+    };
 
     const handleSearchChange = (e) => {
         setSearchTerm(e.target.value);
@@ -74,16 +72,8 @@ const Modalcheck = () => {
     const total = tasks.length;
   const left = tasks.filter((item) => !item.completed);
   const s=left.length;
-    //Passing the synthetic event as argument to stop refreshing the page on submit
-    function handleSubmit(e){
-        e.preventDefault();
-
-        setTasks([{id:Date.now(),task,description,completed:false,priority},...tasks]);
-        setDescription("");
-        setTask("");
-     
-  
-    }
+    
+ 
         
 
     function toggletask(taskID)
