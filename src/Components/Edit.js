@@ -14,6 +14,8 @@ export default function Edit() {
     const[completed,setCompleted]=useState(false);
     const [priority, setPriority] = useState("");
    
+   
+    // Edit the task
 const Edittask=tasks.find((item)=>{
    
     console.log("b",id);
@@ -38,6 +40,7 @@ function handleSubmit(e)
 e.preventDefault();
 
 Edittasks(Number(id),{task,description,completed,priority})
+// Navigate to home page
 navigate('/')
 }
 
@@ -46,7 +49,7 @@ navigate('/')
           {/* Heading of the page */}
           <h1>TODO APP!</h1>
 
-{/* Division created to provide styling of section to the form */}
+{/* Division created to provide styling of section to the todo*/}
 <div className="section">
 
 {/* Form for to write the blog */}
@@ -79,7 +82,7 @@ navigate('/')
           <option value="Low">Low</option>
           <option value="Medium">Medium</option>
           <option value="High">High</option>
-        </select>
+ </select>
 
         {/* Button to submit the form */}            
         <button className = "btn" >SaveChanges</button>

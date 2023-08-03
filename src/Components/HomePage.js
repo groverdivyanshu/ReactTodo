@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import "./HomePage.css"
 import { Datacontext } from '../Proivder/Dataprovider';
+import Modal from './Modal';
 import { useState,useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -16,13 +17,23 @@ export default function HomePage() {
     const [statusFilter, setStatusFilter] = useState("all");
     const [priorityFilter, setPriorityFilter] = useState("all");
     const [sortBy, setSortBy] = useState(null);
+    const[modal,setModal]=useState(false);
+
+function handlemodel()
+{
+setModal(true);
+}
+
+const Modalcheck = () => {
+    setModal(false);
+  };
     const handleSortByPriority = () => {
         setSortBy("priority");
       };
     
       const handleSortByCompletionStatus = () => {
         setSortBy("completionStatus");
-      };
+};
 
     const handleSearchChange = (e) => {
         setSearchTerm(e.target.value);
@@ -42,9 +53,9 @@ export default function HomePage() {
                 return a.completed === b.completed ? 0 : a.completed?1:1;
             } else {
               // If no sorting option selected, keep tasks in the original order
-              return 0;
-            }
-          });
+              return 0;
+        }
+    });
         setfilteredTask(sortedTasks===""?tasks:sortedTasks);
     },[sortBy])
     
@@ -56,7 +67,7 @@ export default function HomePage() {
               (statusFilter === "active" && !task.completed) ||
               (statusFilter === "completed" && task.completed)) &&
             (priorityFilter === "all" || task.priority === priorityFilter)
-          );
+        );
         setfilteredTask(filteredTasks===""?tasks:filteredTasks);
     },[searchTerm,statusFilter,priorityFilter,tasks])
       
@@ -95,41 +106,14 @@ console.log(tasks);
         <div className="section">
 
         {/* Form for to write the blog */}
-            <form onSubmit={handleSubmit}>
-
-                {/* Row component to create a row for first input field */}
-                <Row label="Task">
-                        <input className="input"
-                                placeholder="Enter the task  here.."
-                                value={task}
-                                onChange={(e)=>setTask(e.target.value)}/>
+            
 
                                
-                </Row >
-
-                {/* Row component to create a row for Text area field */}
-                <Row label="Description">
-                        <textarea className="input content"
-                                placeholder="Description of the goes here.."
-                                value={description}
-                                onChange={(e)=>setDescription(e.target.value)}/>
-                </Row >
-                <Row label="Priority">
-               
-               
-        <select
-          value={priority}
-          onChange={(e) => setPriority(e.target.value)}
-        >
-          <option value="Low" style={{backgroundColor:'red'}}>Low</option>
-          <option value="Medium">Medium</option>
-          <option value="High">High</option>
-        </select>
- </Row>
-
-                {/* Button to submit the form */}            
-                <button className = "btn">ADD</button>
-            </form>
+        
+                {/* Button to open modal*/}            
+                <button className = "btn" onClick={handlemodel}>ADD</button>
+                <Modal open={modal} Close={Modalcheck} />
+    
 
                      
         </div>
@@ -138,7 +122,7 @@ console.log(tasks);
 
         
         <div id="search" className='mid' >
-
+     <h3>Search By Task and Description</h3>
 <input type="text" placeholder="🔍Search the Task" value={searchTerm}
         onChange={handleSearchChange} />
 </div>
@@ -152,10 +136,10 @@ console.log(tasks);
         <button onClick={() => handlePriorityFilter("Low")}>Low</button>
         <button onClick={() => handlePriorityFilter("Medium")}>Medium</button>
         <button onClick={() => handlePriorityFilter("High")}>High</button>
-      </div>
+</div>
 <div>
-<button onClick={handleSortByPriority}>Sort by Priority</button>
-        <button onClick={handleSortByCompletionStatus}>Sort by Completion</button>
+<button onClick={handleSortByPriority}>Sort Priority</button>
+        <button onClick={handleSortByCompletionStatus}>Sort Completion</button>
 </div>
         {
         
@@ -170,6 +154,7 @@ console.log(tasks);
 <button><Link to={`/edit/${item.id}`}>Edit</Link></button>
 
 
+
 </div>
 
 
@@ -179,13 +164,4 @@ console.log(tasks);
     }
 
 // Row component to introduce a new row section in the form
-function Row(props){
-    const{label} = props;
-    return(
-        <>
-        <label>{label}<br/></label>
-         {props.children}
-        <hr />
-        </>
-    )
-}
+
