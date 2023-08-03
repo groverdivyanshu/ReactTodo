@@ -45,8 +45,8 @@ const Modalcheck = () => {
     useEffect(()=>{
         const sortedTasks = tasks.sort((a, b) => {
             if (sortBy === "priority") {
-              const priorityOrder = { Low: 1, Medium: 2, High: 3 };
-              return priorityOrder[a.priority] - priorityOrder[b.priority];
+              const priorityorder = { Low: 1, Medium: 2, High: 3 };
+              return priorityorder[a.priority] - priorityorder[b.priority];
             } else if (sortBy === "completionStatus") {
                 return a.completed === b.completed ? 0 : a.completed?1:1;
             } else {
